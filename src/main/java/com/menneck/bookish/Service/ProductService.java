@@ -5,6 +5,7 @@ import com.menneck.bookish.Model.Category;
 import com.menneck.bookish.Model.Product;
 import com.menneck.bookish.Repository.CategoryRepository;
 import com.menneck.bookish.Repository.ProductRepository;
+import com.menneck.bookish.Service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,9 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Optional<Product> findById(Integer id) {
-        return productRepository.findById(id);
+    public Product findById(Integer id) {
+        Optional<Product> productOptinal = productRepository.findById(id);
+        return productOptinal.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public List<Product> findAll() {
@@ -32,6 +34,7 @@ public class ProductService {
     public void create(ProductDTO productDTO) {
         productRepository.save(createProduct(productDTO));
     }
+
     private Product createProduct(ProductDTO productDTO) {
 
         Product product = new Product();
@@ -49,6 +52,5 @@ public class ProductService {
         }
 
         return product;
-
     }
 }
