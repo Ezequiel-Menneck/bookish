@@ -42,13 +42,14 @@ public class ProductService {
         product.setPrice(productDTO.getPrice());
 
         List<Category> existingCategory = categoryRepository.findAll();
-        Optional<Category> categoryOpt = existingCategory.stream().filter(c -> c.getName().equals(productDTO.getCategories().getName())).findFirst();
-
-        if (categoryOpt.isPresent()) {
-            Category category = categoryOpt.get();
-            product.getCategories().add(category);
-        } else {
-            product.getCategories().add(productDTO.getCategories());
+        for (Category category : productDTO.getCategories()) {
+            Optional<Category> categoryOpt = existingCategory.stream().filter(c -> c.getName().equals(category.getName())).findFirst();
+            if (categoryOpt.isPresent()) {
+                Category cat = categoryOpt.get();
+                product.getCategories().add(cat);
+            } else {
+                product.getCategories().add(category);
+            }
         }
 
         return product;
