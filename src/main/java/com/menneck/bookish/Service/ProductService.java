@@ -6,6 +6,7 @@ import com.menneck.bookish.Model.Product;
 import com.menneck.bookish.Repository.CategoryRepository;
 import com.menneck.bookish.Repository.ProductRepository;
 import com.menneck.bookish.Service.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,4 +55,21 @@ public class ProductService {
 
         return product;
     }
+
+    public Product updateProduct(Integer id, ProductDTO productDTO) {
+        try {
+            Product entity = productRepository.getReferenceById(id);
+            updateData(entity, productDTO);
+            return productRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
+    }
+
+    private void updateData(Product entity, ProductDTO productDTO) {
+        entity.setName(productDTO.getName());
+        entity.setPrice(productDTO.getPrice());
+        entity.setCategories(productDTO.getCategories());
+    }
+
 }
