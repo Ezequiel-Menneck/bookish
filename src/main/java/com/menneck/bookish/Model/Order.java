@@ -8,11 +8,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "tb_order")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class ProductOrder {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class ProductOrder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ProductOrder that = (ProductOrder) o;
+        Order that = (Order) o;
         return id != null && Objects.equals(id, that.id);
     }
 
