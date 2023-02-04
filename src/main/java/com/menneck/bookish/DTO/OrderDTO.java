@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
-public class ProductOrderDTO {
+public class OrderDTO {
 
     @NotEmpty
     private Double price;
