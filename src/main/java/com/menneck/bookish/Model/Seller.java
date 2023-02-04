@@ -22,7 +22,7 @@ public class Seller {
     private Double comission;
 
     @OneToMany
-    private List<ProductOrder> productOrderList;
+    private List<Order> orderList;
 
     @Override
     public boolean equals(Object o) {
