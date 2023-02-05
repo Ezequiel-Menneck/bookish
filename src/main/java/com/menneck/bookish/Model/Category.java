@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
+@ToString
 public class Category {
 
     @Id
@@ -22,6 +24,7 @@ public class Category {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> product;
+    @ToString.Exclude
+    private List<Product> product;
 
 }

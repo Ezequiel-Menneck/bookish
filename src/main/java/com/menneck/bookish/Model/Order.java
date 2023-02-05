@@ -1,9 +1,11 @@
 package com.menneck.bookish.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,11 +22,12 @@ public class Order {
     private Integer id;
 
     private Double price;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade=CascadeType.PERSIST)
     private Seller sellers;
 
     @Override
