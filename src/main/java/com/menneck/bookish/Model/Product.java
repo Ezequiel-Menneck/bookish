@@ -28,7 +28,7 @@ public class Product {
     @JoinTable(name = "product_categories",
             joinColumns = @JoinColumn(name = "products_id"),
             inverseJoinColumns = @JoinColumn(name = "categories_id"))
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

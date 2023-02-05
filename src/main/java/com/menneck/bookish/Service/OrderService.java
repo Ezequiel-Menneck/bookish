@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class OrderService {
@@ -47,11 +46,12 @@ public class OrderService {
 
         List<Category> existingCategory = categoryRepository.findAll();
         List<Product> productList = orderDTO.getProductList();
-        Set<Category> categoriesInProductList = productList.stream().iterator().next().getCategories();
+        List<Category> categoriesInProductList = productList.stream().iterator().next().getCategories();
 
         for (Product product : orderDTO.getProductList()) {
             for (int i = 0; i < categoriesInProductList.size(); i++) {
-                Category existentCategory = categoriesInProductList.stream().iterator().next();
+                System.out.println(categoriesInProductList.size());
+                Category existentCategory = categoriesInProductList.get(0);
                 String categoryName = categoriesInProductList.stream().iterator().next().getName();
                 Optional<Category> categoryOpt = existingCategory.stream().filter(c -> c.getName().equals(categoryName)).findFirst();
 
