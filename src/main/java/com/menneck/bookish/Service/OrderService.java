@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -45,27 +47,29 @@ public class OrderService {
         order.setSellers(orderDTO.getSeller());
 
         List<Category> existingCategory = categoryRepository.findAll();
-        List<Product> productList = orderDTO.getProductList();
-        List<Category> categoriesInProductList = productList.stream().iterator().next().getCategories();
 
         for (Product product : orderDTO.getProductList()) {
-            for (int i = 0; i < categoriesInProductList.size(); i++) {
-                System.out.println(categoriesInProductList.size());
-                Category existentCategory = categoriesInProductList.get(0);
-                String categoryName = categoriesInProductList.stream().iterator().next().getName();
-                Optional<Category> categoryOpt = existingCategory.stream().filter(c -> c.getName().equals(categoryName)).findFirst();
+            List<Category> categoriesToBeRemoved = new ArrayList<>();
+            List<Category> categoriesToBeAdded = new ArrayList<>();
 
-                if (categoryOpt.isPresent()) {
-                    Category categoryOptGet = categoryOpt.get();
-                    product.getCategories().remove(existentCategory);
-                    product.getCategories().add(categoryOptGet);
+            for (Category category : product.getCategories()) {
+                Optional<Category> optionalCategory = existingCategory.stream().filter(c -> Objects.equals(c.getName(), category.getName())).findFirst();
+
+                if (optionalCategory.isPresent()) {
+                    Category isPresentCategory = optionalCategory.get();
+                    categoriesToBeAdded.add(isPresentCategory);
+                    Optional<Category> optionalCategoryInProduct = product.getCategories().stream().filter(c -> c.getName().equals(isPresentCategory.getName())).findFirst();
+                    if (optionalCategoryInProduct.isPresent()) {
+                        Category catToBeRemoved = optionalCategoryInProduct.get();
+                        categoriesToBeRemoved.add(catToBeRemoved);
+                    }
                 }
             }
+            product.getCategories().removeAll(categoriesToBeRemoved);
+            product.getCategories().addAll(categoriesToBeAdded);
+
             order.getProductList().add(product);
         }
-
         return order;
-
     }
-
 }
