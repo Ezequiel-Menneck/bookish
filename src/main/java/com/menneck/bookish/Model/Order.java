@@ -1,8 +1,10 @@
 package com.menneck.bookish.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.util.ArrayList;
@@ -26,8 +28,8 @@ public class Order {
     @ToString.Exclude
     private List<Product> productList = new ArrayList<>();
 
-    @JsonIgnore
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    //    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Seller sellers;
 
     @Override

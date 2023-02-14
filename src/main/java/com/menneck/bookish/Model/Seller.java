@@ -1,5 +1,6 @@
 package com.menneck.bookish.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class Seller {
     private Integer phone;
     private Double comission;
 
+    @JsonIgnore
     @OneToMany
     private List<Order> orderList;
 
