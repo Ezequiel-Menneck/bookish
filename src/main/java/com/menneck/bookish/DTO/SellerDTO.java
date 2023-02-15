@@ -11,7 +11,7 @@ public class SellerDTO {
     @NotNull
     private String name;
     @NotEmpty
-    private Integer phone;
+    private Long phone;
     @NotEmpty
     private Double comission;
 

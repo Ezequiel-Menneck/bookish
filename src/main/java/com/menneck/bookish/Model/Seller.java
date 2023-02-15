@@ -21,7 +21,7 @@ public class Seller {
     private Integer id;
 
     private String name;
-    private Integer phone;
+    private Long phone;
     private Double comission;
 
     @JsonIgnore
